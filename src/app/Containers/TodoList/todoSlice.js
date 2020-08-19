@@ -3,18 +3,30 @@ import { createSlice } from '@reduxjs/toolkit';
 export const initialState = {
   tasks: [],  // task should have a format {id: unique_value, text: taks_text, checked: flag_show_if_task_completed (false by default) }
 };
+let nextTodoId = 0
 
 export const todoSlice = createSlice({
   name: 'todo',
-  initialState,
+  initialState:[],
   reducers: {
-    add: (state, {payload}) => {  // todo implement function for add new todo into list
+    addTodo: {
+      reducer(state, action) {
+        const { id, text } = action.payload
+
+        state.push({ id, text, completed: false })
+      },
+      prepare(text) {
+        return { payload: { text, id: nextTodoId++ } }
+      }
     },
-    remove: (state, {payload}) => {  // todo implement function for remove todo from the list
+    remove: (state, action, index) => {
+      const { id, text } = action.payload
+      state.splice(state.findIndex(i => i.id === id), 1)
     },
-    markAsChecked: (state, {payload}) => {  // todo implement function for mark task checked by id
+    markAsChecked: (state, action) => {
+      return state.map (todo => todo.id === action.payload.id ? {...todo, completed: !todo.completed} : todo)
     },
-    clearCompleted: state => {  //todo implement funciton for remove all completed (checked ) tasks
+    clearCompleted: state => {
     },
     checkAll: state => {
     }
