@@ -27,7 +27,7 @@ import {text} from "@fortawesome/fontawesome-svg-core";
 /**
  * todo implement HOC for display the list of the todos and control panel and input for add new todos
  */
-//const todos = initialState.tasks;
+
 
 const TodoList = (props) => {
     const FILTER_MAP = {
@@ -35,14 +35,11 @@ const TodoList = (props) => {
         ToDo: todo => !todo.completed,
         Completed: todo => todo.completed
     };
-    const FILTER_NAMES = Object.keys(FILTER_MAP);
 
-    const {todos, remove, markAsChecked} = props
+    const {todos, remove, markAsChecked, clearCompleted, checkAll} = props
     const [state, setState] = useState({items: todos, filter: 'All'})
 
     useEffect(()  => {
-       // const raw = localStorage.getItem('todos') || []
-        // (JSON.parse(raw))
         const todoList = todos.filter(FILTER_MAP['All'])
         setState({items: todoList, filter: 'All'})
         console.log('LOOG fsdfsdfsdfs');
@@ -57,29 +54,37 @@ const TodoList = (props) => {
         setState({items: todoList, filter: name})
     };
 
+    const checkAllTodos = () => {
+        console.log(todos)
+    }
     return (
         <React.Fragment>
             <div className="todo-list">
                 <ToDoInput/>
                 <hr/>
-                {state.items.map((todo, index) => (
-                    <TodoItem
-                    id={todo.id}
-                    index={index}
-                    key={todo.id}
-                    text={todo.text}
-                    onRemove={() => {
-                    remove({id: todo.id, text: todo.text})
-                }}
-                    markAsChecked={() => {
-                    markAsChecked({id: todo.id, completed: todo.completed})
-                }}
-                    todo={todo}
-                    />
-                    ))}
-                <div>
+                <div className="list">
+                    {state.items.map((todo, index) => (
+                        <TodoItem
+                        id={todo.id}
+                        index={index}
+                        key={todo.id}
+                        text={todo.text}
+                        onRemove={() => {
+                        remove({id: todo.id, text: todo.text})
+                    }}
+                        markAsChecked={() => {
+                        markAsChecked({id: todo.id, completed: todo.completed})
+                    }}
+                        todo={todo}
+                        />
+                        ))}
+                </div>
+                <div className="footerSection">
                     <ul className="footer">
-                        <li className="taskCount">
+                        <li
+                            className="taskCount"
+                            onClick={checkAll}
+                        >
                             {todos.length} tasks left
                         </li>
                         <li>
@@ -93,7 +98,10 @@ const TodoList = (props) => {
                                     {name}
                                 </button>))}
                         </li>
-                        <li className="clearTasksButton">
+                        <li
+                            className="clearTasksButton"
+                            onClick={clearCompleted}
+                        >
                             Clear completed
                         </li>
                     </ul>
@@ -117,7 +125,9 @@ const mapStateToProps = state => ({todos: state.todo})
 const mapDispatchToProps = {
     addTodo: actions.addTodo,
     remove: actions.remove,
-    markAsChecked: actions.markAsChecked
+    markAsChecked: actions.markAsChecked,
+    clearCompleted: actions.clearCompleted,
+    checkAll: actions.checkAll
 }
 
 

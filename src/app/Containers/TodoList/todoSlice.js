@@ -26,9 +26,12 @@ export const todoSlice = createSlice({
     markAsChecked: (state, action) => {
       return state.map (todo => todo.id === action.payload.id ? {...todo, completed: !todo.completed} : todo)
     },
-    clearCompleted: state => {
+    clearCompleted: (state) => {
+      return state.filter(todo => !todo.completed === true)
     },
-    checkAll: state => {
+    checkAll: (state) => {
+      console.log(state.map(todo => !todo.completed === true))
+      return state.map(todo => todo ? {...todo, completed: !todo.completed} : todo)
     }
   },
 });

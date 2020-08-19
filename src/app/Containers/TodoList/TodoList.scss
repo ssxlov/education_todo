@@ -24,6 +24,9 @@
   float: right;
   margin-left: 10px;
 }
+.clearTasksButton:hover{
+  cursor: pointer;
+}
 .input {
   width: 95%;
   border: none;
@@ -37,6 +40,9 @@
   color: gray;
   margin-right: 15px;
 }
+.taskCount:hover {
+  cursor: pointer;
+}
 li {
   list-style: none;
 }
@@ -47,4 +53,15 @@ button {
   background: white;
   border: 1px solid gray;
   border-radius: 3px;
+}
+.list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+.footerSection {
+  height: 30px;
+  padding-top: 10px;
+}
+.form {
+  padding: 10px 0 10px 0;
 }
